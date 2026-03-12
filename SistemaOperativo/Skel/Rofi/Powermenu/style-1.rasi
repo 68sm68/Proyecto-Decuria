@@ -1,0 +1,171 @@
+#Autor original:
+
+#Modificado por: 
+
+/*****----- Configuration -----*****/
+configuration {
+    show-icons: false;
+}
+
+/*****----- Global Properties -----*****/
+@import "shared/colors.rasi"
+@import "shared/fonts.rasi"
+
+/*****----- Base Variables -----*****/
+* {
+    font:               "Montserrat 12";
+    bg0:                #242424E6;
+    bg1:                #7E7E7E80;
+    bg2:                #F70526E6;
+    fg0:                #DEDEDE;
+    fg1:                #FFFFFF;
+    fg2:                #DEDEDE80;
+    background-color:   transparent;
+    text-color:         @fg0;
+    margin:             0;
+    padding:            0;
+    spacing:            0;
+}
+
+/*****----- Main Window -----*****/
+window {
+    transparency:       "real";
+    location:           northeast;
+    anchor:             northeast;
+    fullscreen:         false;
+    width:              400px;
+    x-offset:           1px;
+    y-offset:           40px;
+
+    enabled:            true;
+    border-radius:      8px;
+    background-color:   @bg0;
+    cursor:             "default";
+}
+
+/*****----- Main Box -----*****/
+mainbox {
+    enabled:            true;
+    spacing:            10px;
+    padding:            20px;
+    background-color:   @bg1;
+    children:           [ "inputbar", "message", "listview" ];
+}
+
+/*****----- Inputbar -----*****/
+inputbar {
+    enabled:            true;
+    spacing:            10px;
+    padding:            0px;
+    background-color:   transparent;
+    text-color:         @fg0;
+    children:           [ "textbox-prompt-colon", "prompt" ];
+}
+
+textbox-prompt-colon {
+    enabled:            true;
+    expand:             false;
+    str:                "";
+    padding:            10px 14px;
+    border-radius:      8px;
+    background-color:   @bg2;
+    text-color:         @fg1;
+}
+
+prompt {
+    enabled:            true;
+    padding:            10px;
+    border-radius:      8px;
+    background-color:   @bg0;
+    text-color:         @fg0;
+}
+
+/*****----- Message -----*****/
+message {
+    enabled:            true;
+    padding:            10px;
+    border:             2px 0 0;
+    border-color:       @bg1;
+    border-radius:      8px;
+    background-color:   @bg1;
+    text-color:         @fg0;
+}
+
+textbox {
+    background-color:   transparent;
+    text-color:         inherit;
+    vertical-align:     0.5;
+    horizontal-align:   0.0;
+    placeholder-color:  @fg2;
+    blink:              true;
+    markup:             true;
+}
+
+error-message {
+    padding:            10px;
+    border-radius:      8px;
+    border:             2px solid;
+    border-color:       @bg2;
+    background-color:   @bg0;
+    text-color:         @fg0;
+}
+
+/*****----- Listview -----*****/
+listview {
+    enabled:            true;
+    columns:            1;
+    lines:              5;
+    cycle:              true;
+    dynamic:            true;
+    scrollbar:          false;
+    layout:             vertical;
+    reverse:            false;
+    fixed-height:       false;
+    fixed-columns:      true;
+
+    spacing:            5px;
+    padding:            0px;
+    border:             1px 0 0;
+    border-color:       @bg1;
+    background-color:   transparent;
+    text-color:         @fg0;
+    cursor:             "default";
+}
+
+/*****----- Elements -----*****/
+element {
+    enabled:            true;
+    spacing:            0px;
+    padding:            8px 16px;
+    border-radius:      8px;
+    background-color:   transparent;
+    text-color:         @fg0;
+    cursor:             pointer;
+}
+
+element normal.normal {
+    background-color:   transparent;
+    text-color:         @fg0;
+}
+
+element normal.active {
+    text-color:         @bg2;
+}
+
+element alternate.active {
+    text-color:         @bg2;
+}
+
+element selected.normal,
+element selected.active {
+    background-color:   @bg2;
+    text-color:         @fg1;
+}
+
+element-text {
+    background-color:   transparent;
+    text-color:         inherit;
+    cursor:             inherit;
+    vertical-align:     0.5;
+    horizontal-align:   0.0;
+}
