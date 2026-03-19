@@ -1,0 +1,180 @@
+/*****----- Configuration -----*****/
+configuration {
+    modi:                       "drun";
+    show-icons:                 true;
+    display-drun:               "xd";
+    drun-display-format:        "{name}";
+    scroll-method:              1;
+    kb-accept-entry:            "Return";
+    hover-select:               false;
+    me-accept-entry:            "MousePrimary";
+    me-select-entry:            "";
+}
+
+/*****----- Global Properties -----*****/
+@import "shared/colors.rasi"
+@import "shared/fonts.rasi"
+
+/*****----- Base Variables -----*****/
+* {
+    font:               "Montserrat 12";
+    bg0:                #242424E6;
+    bg1:                #7E7E7E80;
+    bg2:                #F70526E6;
+    fg0:                #DEDEDE;
+    fg1:                #FFFFFF;
+    fg2:                #DEDEDE80;
+    background-color:   transparent;
+    text-color:         @fg0;
+    margin:             0;
+    padding:            0;
+    spacing:            0;
+}
+
+/*****----- Main Window -----*****/
+window {
+    background-color:   @bg0;
+    transparency:       "real";
+    location:           northwest;
+    anchor:             northwest;
+    fullscreen:         false;
+    width:              600px;
+    x-offset:           0px;
+    y-offset:           40px;
+    border-radius:      8px;
+    cursor:             "default";
+}
+
+/*****----- Main Box -----*****/
+mainbox {
+    spacing:            18px;
+    padding:            12px 20px 20px 20px;
+    background-color:   @bg1;
+    children:           [ "inputbar", "listview" ];
+}
+
+/*****----- Inputbar -----*****/
+inputbar {
+    font:               "Montserrat 20";
+    padding:            12px;
+    spacing:            12px;
+    background-color:   @bg0;
+    border-radius:      8px;
+    children:           [ "icon-search", "entry" ];
+}
+
+icon-search {
+    expand:             false;
+    filename:           "search";
+    size:               28px;
+    vertical-align:     0.5;
+}
+
+entry {
+    font:               inherit;
+    background-color:   transparent;
+    text-color:         @fg0;
+    cursor:             text;
+    placeholder:        "Buscar";
+    placeholder-color:  @fg2;
+    vertical-align:     0.5;
+}
+
+/*****----- Listview -----*****/
+listview {
+    enabled:            true;
+    columns:            2;
+    lines:              8;
+    cycle:              true;
+    dynamic:            true;
+    scrollbar:          false;
+    layout:             vertical;
+    fixed-height:       false;
+    fixed-columns:      true;
+    spacing:            5px;
+    border:             1px 0 0;
+    border-color:       @bg1;
+    background-color:   transparent;
+    cursor:             "default";
+}
+
+scrollbar {
+    handle-width:       5px;
+    handle-color:       @bg2;
+    border-radius:      0px;
+    background-color:   @bg1;
+}
+
+/*****----- Elements -----*****/
+element {
+    padding:            8px 16px;
+    spacing:            16px;
+    border-radius:      8px;
+    background-color:   transparent;
+    cursor:             pointer;
+}
+
+element normal.normal {
+    background-color:   transparent;
+    text-color:         @fg0;
+}
+
+element normal.active {
+    text-color:         @bg2;
+}
+
+element alternate.active {
+    text-color:         @bg2;
+}
+
+element selected.normal,
+element selected.active {
+    background-color:   @bg2;
+    text-color:         @fg1;
+}
+
+element-icon {
+    background-color:   transparent;
+    text-color:         inherit;
+    size:               1em;
+    cursor:             inherit;
+    vertical-align:     0.5;
+}
+
+element-text {
+    background-color:   transparent;
+    text-color:         inherit;
+    highlight:          inherit;
+    cursor:             inherit;
+    vertical-align:     0.5;
+    horizontal-align:   0.0;
+}
+
+/*****----- Message -----*****/
+message {
+    border:             2px 0 0;
+    border-color:       @bg1;
+    background-color:   @bg1;
+}
+
+error-message {
+    padding:            15px;
+    border:             2px solid;
+    border-radius:      8px;
+    border-color:       @bg2;
+    background-color:   @bg0;
+    text-color:         @fg0;
+}
+
+textbox {
+    padding:            8px 24px;
+    background-color:   transparent;
+    text-color:         @fg0;
+    vertical-align:     0.5;
+    horizontal-align:   0.0;
+    highlight:          none;
+}
+
+configuration {
+    kb-cancel: "Escape,Super_L";
+}
