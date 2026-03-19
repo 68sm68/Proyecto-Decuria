@@ -1,0 +1,8 @@
+// Contenido de ~/.config/rofi/performance_config.rasi (CORREGIDO)
+
+configuration {
+    modi: "dmenu";
+}
+
+// Se carga el tema USANDO LA SINTAXIS MODERNA (FUERA DEL BLOQUE CONFIGURATION)
+@theme "~/.config/rofi/systemctl_simple.rasi"
