@@ -4,17 +4,17 @@ ROFI_THEME="$HOME/.config/rofi/systemctl_simple.rasi"
 MASTER_SCRIPT="$HOME/.config/performance/performance_panel.sh"
 RETURN_OPTION="⬅️  Volver al Menú Principal"
 
-# ─── Governors que queremos mostrar ──────────────────────────────────────────
+# Governors que queremos mostrar 
 WANTED_GOVERNORS=("performance" "schedutil" "powersave")
 
-# ─── Obtener governor actual ──────────────────────────────────────────────────
+# Obtener governor actual 
 CURRENT_GOV=$(cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor 2>/dev/null \
     || echo "no disponible")
 
-# ─── Obtener governors disponibles en este sistema ───────────────────────────
+# Obtener governors disponibles en este sistema 
 AVAILABLE=$(cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_available_governors 2>/dev/null)
 
-# Si no hay governors disponibles (VM sin cpufreq)
+# Si no hay governors disponibles:
 if [ -z "$AVAILABLE" ]; then
     echo "" | rofi -dmenu \
         -p "Governor" \
@@ -28,7 +28,7 @@ if [ -z "$AVAILABLE" ]; then
     exit 0
 fi
 
-# ─── Construir opciones solo con los governors que queremos ──────────────────
+# Construir opciones solo con los governors que queremos
 OPTIONS="$RETURN_OPTION\n"
 
 for gov in "${WANTED_GOVERNORS[@]}"; do
@@ -49,7 +49,7 @@ for gov in "${WANTED_GOVERNORS[@]}"; do
     fi
 done
 
-# ─── Menú SIN búsqueda ────────────────────────────────────────────────────────
+# Menú SIN buscador
 CHOICE=$(echo -e "$OPTIONS" | rofi -dmenu \
     -p "Governor CPU" \
     -mesg "Actual: $CURRENT_GOV  |  CPU: $(nproc) núcleos" \
@@ -59,16 +59,16 @@ CHOICE=$(echo -e "$OPTIONS" | rofi -dmenu \
 
 [ -z "$CHOICE" ] && exit 0
 
-# ─── Volver al menú principal ─────────────────────────────────────────────────
+# Volver al menú principal
 if [ "$CHOICE" = "$RETURN_OPTION" ]; then
     exec "$MASTER_SCRIPT"
     exit 0
 fi
 
-# ─── Extraer nombre del governor ─────────────────────────────────────────────
+# Extraer nombre del governor 
 GOV_NAME=$(echo "$CHOICE" | sed 's/^[✅⚡]  //' | awk '{print $1}')
 
-# ─── Aplicar con terminal ─────────────────────────────────────────────────────
+# Aplicar con terminal
 x-terminal-emulator -e bash -c "
     echo 'Aplicando governor: $GOV_NAME en todos los núcleos...'
     echo ''
@@ -95,5 +95,5 @@ x-terminal-emulator -e bash -c "
     read -p 'Presiona Enter para volver...'
 "
 
-# ─── Volver al mismo menú mostrando el nuevo governor ────────────────────────
+# Volver al mismo menú mostrando el nuevo governor
 exec "$0"
