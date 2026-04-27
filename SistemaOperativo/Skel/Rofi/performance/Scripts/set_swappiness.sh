@@ -4,10 +4,10 @@ ROFI_THEME="$HOME/.config/rofi/systemctl_simple.rasi"
 MASTER_SCRIPT="$HOME/.config/performance/performance_panel.sh"
 RETURN_OPTION="⬅️  Volver al Menú Principal"
 
-# ─── Valor actual ─────────────────────────────────────────────────────────────
+# Valor actual
 CURRENT_SWAP=$(cat /proc/sys/vm/swappiness 2>/dev/null || echo "desconocido")
 
-# ─── Opciones con descripción ─────────────────────────────────────────────────
+# Opciones con descripción
 OPTIONS="$RETURN_OPTION
 0   — Sin swap (RAM abundante)
 10  — SSD / Alto rendimiento
@@ -16,7 +16,7 @@ OPTIONS="$RETURN_OPTION
 80  — HDD / Ahorro de RAM
 100 — Swap agresivo (poca RAM)"
 
-# ─── Menú SIN búsqueda ────────────────────────────────────────────────────────
+# Menú SIN búsqueda
 CHOICE=$(echo -e "$OPTIONS" | rofi -dmenu \
     -p "Swappiness" \
     -mesg "Valor actual: $CURRENT_SWAP  |  Rango: 0-100" \
@@ -26,13 +26,13 @@ CHOICE=$(echo -e "$OPTIONS" | rofi -dmenu \
 
 [ -z "$CHOICE" ] && exit 0
 
-# ─── Volver al menú principal ─────────────────────────────────────────────────
+# Volver al menú principal 
 if [ "$CHOICE" = "$RETURN_OPTION" ]; then
     exec "$MASTER_SCRIPT"
     exit 0
 fi
 
-# ─── Extraer solo el número ───────────────────────────────────────────────────
+# Extraer solo el número
 VALUE=$(echo "$CHOICE" | awk '{print $1}')
 
 # Validar que es un número entre 0 y 100
@@ -41,7 +41,7 @@ if ! [[ "$VALUE" =~ ^[0-9]+$ ]] || [ "$VALUE" -gt 100 ]; then
     exec "$0"
 fi
 
-# ─── Aplicar con terminal para pedir sudo ────────────────────────────────────
+# Aplicar con terminal para pedir sudo
 x-terminal-emulator -e bash -c "
     echo 'Aplicando swappiness = $VALUE...'
     echo ''
@@ -66,5 +66,5 @@ x-terminal-emulator -e bash -c "
     read -p 'Presiona Enter para volver...'
 "
 
-# ─── Volver al mismo menú para ver el nuevo valor ────────────────────────────
+# Volver al mismo menú para ver el nuevo valor
 exec "$0"
