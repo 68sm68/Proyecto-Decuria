@@ -3,8 +3,7 @@
 ROFI_THEME="$HOME/.config/rofi/systemctl_simple.rasi"
 MASTER_SCRIPT="$HOME/.config/performance/performance_panel.sh"
 RETURN_OPTION="⬅️  Volver al Menú Principal"
-
-# ─── Estado actual de picom ───────────────────────────────────────────────────
+# Estado actual de picom 
 if pgrep -x "picom" > /dev/null; then
     STATUS="🟢  Activo"
     ACTION_LABEL="⏹  Desactivar Picom (desactiva transparencias)"
@@ -13,7 +12,7 @@ else
     ACTION_LABEL="▶  Activar Picom (activa transparencias)"
 fi
 
-# ─── Menú SIN búsqueda ────────────────────────────────────────────────────────
+# Menú SIN búsqueda 
 CHOICE=$(echo -e "$RETURN_OPTION\n$ACTION_LABEL" | rofi -dmenu \
     -p "Compositor Picom" \
     -mesg "Estado: $STATUS" \
