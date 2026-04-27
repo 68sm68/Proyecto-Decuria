@@ -25,12 +25,12 @@ PINNED_CANDIDATES=(
     "firewalld.service"
 )
 
-# ─── Una sola llamada para obtener TODO ───────────────────────────────────────
+# Una sola llamada para obtener TODO
 ALL_UNIT_FILES=$(systemctl list-unit-files --type=service --plain --no-legend 2>/dev/null)
 ALL_ACTIVE=$(systemctl list-units --type=service --plain --no-legend 2>/dev/null \
     | awk '{print $1}')
 
-# ─── Función para obtener estado desde caché ─────────────────────────────────
+# Función para obtener estado desde caché 
 get_status() {
     local svc="$1"
     if echo "$ALL_ACTIVE" | grep -q "^${svc}$"; then
@@ -42,7 +42,7 @@ get_status() {
     fi
 }
 
-# ─── Construir lista destacados desde caché ───────────────────────────────────
+# Construir lista destacados desde caché 
 pinned_entries=""
 for svc in "${PINNED_CANDIDATES[@]}"; do
     if echo "$ALL_UNIT_FILES" | awk '{print $1}' | grep -q "^${svc}$"; then
@@ -57,10 +57,10 @@ for svc in "${PINNED_CANDIDATES[@]}"; do
     fi
 done
 
-# ─── Lista completa desde caché ───────────────────────────────────────────────
+# Lista completa desde caché 
 all_services=$(echo "$ALL_UNIT_FILES" | awk '{print $1}' | sort -u)
 
-# ─── Construir opciones ───────────────────────────────────────────────────────
+# Construir opciones 
 ALL_OPTIONS="$RETURN_OPTION\n"
 
 if [ -n "$pinned_entries" ]; then
@@ -71,7 +71,7 @@ fi
 ALL_OPTIONS+="=====  Todos los servicios  =====\n"
 ALL_OPTIONS+="$all_services"
 
-# ─── Menú principal CON búsqueda ─────────────────────────────────────────────
+# Menú principal CON búsqueda
 SERVICE_CHOICE=$(echo -e "$ALL_OPTIONS" | rofi -dmenu \
     -p "🔍  Buscar servicio" \
     -mesg "✅ Activo   ⛔ Inactivo   💀 Error   ⚪ Desconocido" \
@@ -84,15 +84,15 @@ if [ "$SERVICE_CHOICE" = "$RETURN_OPTION" ]; then
     exit 0
 fi
 
-# ─── Ignorar separadores ─────────────────────────────────────────────────────
-if [[ "$SERVICE_CHOICE" == *"====="* ]] || \
-   [[ "$SERVICE_CHOICE" == *"Servicios"* ]] || \
-   ! [[ "$SERVICE_CHOICE" == *".service"* ]]; then
+# Ignorar separadores 
+if [[ "$SERVICE_CHOICE" == "=====" ]] || \
+   [[ "$SERVICE_CHOICE" == "Servicios" ]] || \
+   ! [[ "$SERVICE_CHOICE" == ".service" ]]; then
     exec "$0"
 fi
 
-# ─── Extraer nombre limpio usando | como separador ───────────────────────────
-if [[ "$SERVICE_CHOICE" == *"|"* ]]; then
+# Extraer nombre limpio usando | como separador
+if [[ "$SERVICE_CHOICE" == "|" ]]; then
     # Viene de destacados: "✅ | ssh.service"
     SERVICE_NAME=$(echo "$SERVICE_CHOICE" | cut -d'|' -f2 | xargs)
 else
@@ -106,12 +106,12 @@ if [ -z "$SERVICE_NAME" ] || \
     exec "$0"
 fi
 
-# ─── Estado desde caché ───────────────────────────────────────────────────────
+# Estado desde caché 
 STATUS=$(get_status "$SERVICE_NAME")
 ENABLED=$(echo "$ALL_UNIT_FILES" | grep "^${SERVICE_NAME}" | awk '{print $2}')
 MESG="Estado: $STATUS  |  Arranque: $ENABLED"
 
-# ─── Menú de acciones SIN búsqueda ───────────────────────────────────────────
+# Menú de acciones SIN búsqueda 
 ACTION=$(echo -e "▶  Iniciar\n⏹  Detener\n✅  Habilitar en arranque\n🚫  Deshabilitar en arranque\nℹ  Ver estado" | \
     rofi -dmenu \
     -p "$SERVICE_NAME" \
@@ -122,7 +122,7 @@ ACTION=$(echo -e "▶  Iniciar\n⏹  Detener\n✅  Habilitar en arranque\n🚫  
 
 [ -z "$ACTION" ] && exec "$0"
 
-# ─── Ejecutar en terminal y esperar antes de volver ──────────────────────────
+# Ejecutar en terminal y esperar antes de volver
 run_as_root() {
     local action="$1"
     local service="$2"
@@ -135,15 +135,15 @@ run_as_root() {
 }
 
 case "$ACTION" in
-    *Iniciar*)
+    Iniciar)
         run_as_root "start" "$SERVICE_NAME" ;;
-    *Detener*)
+    Detener)
         run_as_root "stop" "$SERVICE_NAME" ;;
-    *Habilitar*)
+    Habilitar)
         run_as_root "enable" "$SERVICE_NAME" ;;
-    *Deshabilitar*)
+    Deshabilitar)
         run_as_root "disable" "$SERVICE_NAME" ;;
-    *estado*)
+    estado)
         FULL_STATUS=$(systemctl status "$SERVICE_NAME" --no-pager 2>/dev/null | head -15)
         echo "" | rofi -dmenu \
             -p "ℹ  $SERVICE_NAME" \
