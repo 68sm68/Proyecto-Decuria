@@ -5,7 +5,7 @@ MASTER_SCRIPT="$HOME/.config/performance/performance_panel.sh"
 SYSCTL_CONF="/etc/sysctl.conf"
 RETURN_OPTION="⬅️  Volver al Menú Principal"
 
-# ─── Detectar configuración actual ───────────────────────────────────────────
+# Detectar configuración actual
 CURRENT_TIMEOUT=$(cat /proc/sys/net/ipv4/tcp_fin_timeout 2>/dev/null || echo "?")
 CURRENT_PORTS=$(cat /proc/sys/net/ipv4/ip_local_port_range 2>/dev/null || echo "?")
 
@@ -15,7 +15,7 @@ else
     CURRENT_MODE="⚪  Por Defecto activo"
 fi
 
-# ─── Menú SIN búsqueda ────────────────────────────────────────────────────────
+# Menú SIN búsqueda
 CHOICE=$(echo -e "$RETURN_OPTION\n🚀  Baja Latencia — Optimizado para escritorio\n🔄  Por Defecto — Valores del sistema" | \
     rofi -dmenu \
     -p "Latencia de Red" \
@@ -31,8 +31,8 @@ if [ "$CHOICE" = "$RETURN_OPTION" ]; then
     exit 0
 fi
 
-# ─── Definir valores según elección ──────────────────────────────────────────
-if [[ "$CHOICE" == *"Baja Latencia"* ]]; then
+# Definir valores según elección
+if [[ "$CHOICE" == "Baja Latencia" ]]; then
     TCP_FIN=15
     PORT_RANGE="1024 65535"
     LABEL="Baja Latencia"
@@ -44,7 +44,7 @@ else
     DESC="Valores estándar del sistema"
 fi
 
-# ─── Aplicar con terminal ─────────────────────────────────────────────────────
+# Aplicar con terminal 
 x-terminal-emulator -e bash -c "
     echo 'Aplicando configuración: $LABEL'
     echo '$DESC'
@@ -76,5 +76,5 @@ x-terminal-emulator -e bash -c "
     read -p 'Presiona Enter para volver...'
 "
 
-# ─── Volver al mismo menú mostrando nuevo estado ─────────────────────────────
+# Volver al mismo menú mostrando nuevo estado
 exec "$0"
