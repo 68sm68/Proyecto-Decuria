@@ -6,7 +6,7 @@
 THEME_FILE="$HOME/.config/rofi/wifi/theme.rasi"
 ROFI_CMD="rofi -dmenu -theme $THEME_FILE"
 
-# ─── Helpers ──────────────────────────────────────────────────────────────────
+# Helpers
 
 notify() {
     echo "[WiFi] $1" >&2
@@ -46,7 +46,7 @@ wifi_state() {
     nmcli radio wifi 2>/dev/null || echo "unavailable"
 }
 
-# ─── Ethernet ─────────────────────────────────────────────────────────────────
+# Ethernet
 
 ethernet_device() {
     nmcli -t -f DEVICE,TYPE,STATE dev 2>/dev/null \
@@ -91,7 +91,7 @@ ethernet_disconnect() {
         || notify "Error al desconectar ethernet"
 }
 
-# ─── Menu ethernet ────────────────────────────────────────────────────────────
+# Menu ethernet
 
 ethernet_menu() {
     local eth_dev="$1"
@@ -134,7 +134,7 @@ ethernet_menu() {
     esac
 }
 
-# ─── Redes sin rescan bloqueante ─────────────────────────────────────────────
+# Redes sin rescan bloqueante
 
 get_networks() {
     local dev="$1"
@@ -145,7 +145,7 @@ get_networks() {
         | awk -F: '!seen[$2]++'
 }
 
-# ─── Toggle WiFi ──────────────────────────────────────────────────────────────
+# Toggle WiFi
 
 wifi_toggle() {
     local state
@@ -164,7 +164,7 @@ wifi_toggle() {
     fi
 }
 
-# ─── Olvidar red ──────────────────────────────────────────────────────────────
+# Olvidar red
 
 forget_network() {
     local ssid="$1"
@@ -184,7 +184,7 @@ forget_network() {
     notify "Red $ssid olvidada"
 }
 
-# ─── Menu red conectada ───────────────────────────────────────────────────────
+# Menu red conectada
 
 connected_menu() {
     local ssid="$1"
@@ -220,7 +220,7 @@ connected_menu() {
     esac
 }
 
-# ─── Menu red guardada no conectada ──────────────────────────────────────────
+# Menu red guardada no conectada
 
 saved_menu() {
     local ssid="$1" is_sec="$2"
@@ -251,7 +251,7 @@ saved_menu() {
     esac
 }
 
-# ─── Conexion ─────────────────────────────────────────────────────────────────
+# Conexion
 
 connect_wifi() {
     local ssid="$1" secured="$2"
@@ -342,7 +342,7 @@ connect_wifi() {
     done
 }
 
-# ─── Menu principal ───────────────────────────────────────────────────────────
+# Menu principal
 
 main_menu() {
     local state current dev mesg entries=""
@@ -352,7 +352,7 @@ main_menu() {
     current=$(current_ssid)
     dev=$(wifi_device)
 
-    # ── Seccion ethernet ──────────────────────────────────────────────────────
+    # Seccion ethernet
     local eth_dev eth_state eth_ip eth_label
     eth_dev=$(ethernet_device)
 
@@ -379,7 +379,7 @@ main_menu() {
         entries+="-----------------------------\n"
     fi
 
-    # ── Seccion wifi ──────────────────────────────────────────────────────────
+    #  Seccion wifi
     if [ "$state" = "enabled" ]; then
 
         if [ -n "$current" ]; then
@@ -481,5 +481,5 @@ main_menu() {
     esac
 }
 
-# ─── Inicio ───────────────────────────────────────────────────────────────────
+# Inicio
 main_menu
