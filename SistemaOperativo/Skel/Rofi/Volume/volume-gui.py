@@ -65,7 +65,7 @@ scale slider {
 scale slider:hover { background-color: #cc2222; }
 """
 
-# ─── pactl con LC_ALL=C para forzar inglés ────────────────────────────────────
+# pactl con LC_ALL=C para forzar inglés
 def run(cmd):
     try:
         env = dict(os.environ)
@@ -127,7 +127,7 @@ def toggle_mute_input(idx):   run(f"pactl set-sink-input-mute {idx} toggle")
 def set_default_sink(name):   run(f"pactl set-default-sink {name}")
 def set_default_source(name): run(f"pactl set-default-source {name}")
 
-# ─── Widgets ─────────────────────────────────────────────────────────────────
+# Widgets
 
 def make_device_row(data, is_sink, is_active, radio_group, refresh_cb):
     desc  = data.get("desc", data.get("name", "Unknown"))[:36]
@@ -304,7 +304,7 @@ def build_content(refresh_cb):
     box.pack_start(Gtk.Box(), False, False, 4)
     return box
 
-# ─── Ventana principal ────────────────────────────────────────────────────────
+# Ventana principal
 
 class VolumeWindow(Gtk.Window):
     def __init__(self):
